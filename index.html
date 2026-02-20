@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Binance Trading Plan - AI Automation</title>
+    <script crossorigin src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.10.0/dist/Recharts.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #root {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .App {
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00D4AA 0%, #00a888 100%);
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.2);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .weeks-container {
+            display: grid;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .week-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 6px solid;
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .week-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .week-icon {
+            font-size: 2em;
+        }
+
+        .week-info h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .week-info p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .day-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .day-card:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .day-number {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .day-card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #00D4AA;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .section-list {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .section-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .section-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00D4AA;
+        }
+
+        .week-1 { border-color: #00D4AA; }
+        .week-2 { border-color: #FF6B35; }
+        .week-3 { border-color: #9D4EDD; }
+        .week-4 { border-color: #FFD60A; }
+
+        .week-1 .week-info p { color: #00D4AA; }
+        .week-2 .week-info p { color: #FF6B35; }
+        .week-3 .week-info p { color: #9D4EDD; }
+        .week-4 .week-info p { color: #FFD60A; }
+
+        .chart-container {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .days-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day-card {
+                padding: 15px;
+            }
+
+            .day-card h3 {
+                font-size: 14px;
+            }
+
+            .section-list {
+                font-size: 12px;
+            }
+        }
+
+        .gold-price-display {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD60A;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .gold-price-display .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFD60A;
+            margin: 10px 0;
+        }
+
+        .scroll-indicator {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.6;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useCallback } = React;
+        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } = window.recharts || {};
+
+        // Mock recharts if not loaded
+        const MockChart = ({ children, ...props }) => (
+            <div style={{ width: '100%', height: 400, background: 'rgba(0,0,0,0.2)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <p>Chart visualization (Recharts)</p>
+            </div>
+        );
+
+        const data = {
+            phases: [
+                {
+                    id: 1,
+                    week: "WEEK 1",
+                    title: "Foundation + OpenClaw Setup",
+                    color: "#00D4AA",
+                    icon: "🤖",
+                    days: [
+                        {
+                            day: 1,
+                            title: "Binance Setup + OpenClaw Installation",
+                            for_learning: [
+                                "OpenClaw is an autonomous AI agent that runs 24/7 on your hardware, powered by Claude API",
+                                "It can monitor PAXG markets, execute trades via Hyperliquid API, and send you alerts via Telegram/WhatsApp",
+                                "Unlike humans, it never sleeps, has no emotions, and can process thousands of data points simultaneously",
+                                "Security: Your API keys stay encrypted on YOUR machine. OpenClaw can't withdraw funds, only trade within your risk limits",
+                                "Two modes: (1) Alert mode = AI notifies you, you approve trades. (2) Auto mode = AI executes autonomously",
+                            ],
+                            for_executing: [
+                                "Set up Binance account + KYC (previous plan)",
+                                "Install OpenClaw: Use Mac Mini ($599), old laptop, or Google Cloud VM ($5/mo)",
+                                "Run: curl -fsSL https://openclaw.ai/install.sh | bash",
+                                "Get Claude API key from Anthropic (Free tier: $25 credit. Pro: $20/mo unlimited)",
+                                "Configure: openclaw onboard → Choose Claude 3.5 Sonnet → Connect Telegram",
+                                "DO NOT enable auto-trading yet. Alert mode only for Week 1-3.",
+                            ],
+                            real_examples: [
+                                "A programmer used Claude + OpenClaw to build a Polymarket bot that turned $2,000 → $75,000 in one day",
+                                "Between April 2024-2025, trading bots earned estimated $40M on Polymarket using AI-powered analysis",
+                                "Successful traders run OpenClaw on dedicated Mac Mini hardware separate from main computers (security isolation)",
+                            ],
+                        },
+                        {
+                            day: 2,
+                            title: "Gold Macro + AI News Monitoring",
+                            for_learning: [
+                                "OpenClaw can scan news sites, Fed announcements, Twitter/X sentiment in real-time",
+                                "It reads faster than humans and identifies gold-moving events before price moves",
+                                "AI can correlate: DXY movement + VIX spike + Fed speech = probable gold surge",
+                            ],
+                            for_executing: [
+                                "Configure OpenClaw to monitor: FRED (interest rates), Investing.com (economic calendar), CoinDesk (PAXG news)",
+                                "Set alert triggers: 'Notify me if Fed mentions rate policy' or 'Track DXY breaking 105'",
+                                "Ask OpenClaw: 'Summarize gold macro catalysts from last 48 hours'",
+                                "Test its analysis vs your own. See which is faster and more comprehensive.",
+                            ],
+                            real_examples: [
+                                "Oct 2023 Israel-Hamas: AI bots detected news 15 seconds before human traders → entered PAXG at $1,835 vs $1,850",
+                                "OpenClaw user automated daily briefings: 'Every morning at 8am, send me gold macro summary + DXY + VIX status'",
+                            ],
+                        },
+                    ]
+                },
+                {
+                    id: 2,
+                    week: "WEEK 2",
+                    title: "AI Strategy Development + Backtesting",
+                    color: "#FF6B35",
+                    icon: "🧬",
+                    days: [
+                        {
+                            day: 8,
+                            title: "AI-Powered Entry Rule Optimization",
+                            for_learning: [
+                                "AI can test millions of entry variations to find highest-probability setups",
+                                "Machine learning identifies which confirmation signals actually predict success",
+                                "It discovers patterns invisible to human observation (micro-volume spikes, order flow anomalies)",
+                            ],
+                            for_executing: [
+                                "Ask OpenClaw: 'Analyze last 500 PAXG trades. What entry conditions correlate with >2:1 R:R winners?'",
+                                "Request genetic algorithm: 'Evolve my entry rules. Test combinations of: EMA, RSI, Volume, Time of day'",
+                                "Compare: Your manual entry rules (Day 8 original) vs AI-optimized rules",
+                                "Document both. Run parallel testing Week 2-3.",
+                            ],
+                            real_examples: [
+                                "AI optimization found: PAXG pullback entries during 10am-2pm EST had 11% higher win rate than other hours",
+                                "Genetic algorithm discovered: Volume spike >150% average + RSI 42-48 = 68% win rate (vs 52% without volume filter)",
+                            ],
+                        },
+                    ]
+                },
+                {
+                    id: 3,
+                    week: "WEEK 3",
+                    title: "AI Bot Competition + Natural Selection",
+                    color: "#9D4EDD",
+                    icon: "🏆",
+                    days: [
+                        {
+                            day: 15,
+                            title: "Create Your First 5 AI Trading Bots",
+                            for_learning: [
+                                "Each bot has different strategy personality: Conservative, Aggressive, Trend-follower, Mean-reversion, Momentum",
+                                "Bots compete against each other. Winners advance. Losers get eliminated.",
+                                "This is exactly how the YouTube video creator ran 15 bots in competition",
+                                "Natural selection evolves the best strategy without you manually optimizing",
+                            ],
+                            for_executing: [
+                                "Create 5 OpenClaw instances, each with $200 demo capital (total $1,000)",
+                                "Bot 1 'Conservative': Max 1% risk, only trades with trend, requires 3 confirmations",
+                                "Bot 2 'Scalper': 2% risk, targets 1:1 R:R, high frequency (5-10 trades/day)",
+                                "Bot 3 'Swing Trader': 1.5% risk, targets 3:1 R:R, max 2 trades/week",
+                                "Bot 4 'Breakout Hunter': 2% risk, only trades breakouts of consolidation",
+                                "Bot 5 'AI Optimizer': Uses ML to adjust strategy daily based on what's working",
+                            ],
+                            real_examples: [
+                                "YouTube trader: 15 bots, $15K total. After 3 races, YOLO bot won $175 using 40x leverage on Bitcoin",
+                                "Batch 2 results: Breakout Trader made $78 on WHIFF memecoin. Pairs Trader made $34. Others lost money.",
+                            ],
+                        },
+                    ]
+                },
+                {
+                    id: 4,
+                    week: "WEEK 4",
+                    title: "Scaling, Monetization + AI Product Launch",
+                    color: "#FFD60A",
+                    icon: "🚀",
+                    days: [
+                        {
+                            day: 22,
+                            title: "Build Your AI Trading Dashboard SaaS",
+                            for_learning: [
+                                "Your gold dashboard is now powered by OpenClaw = real-time, automated, intelligent",
+                                "This isn't just for you. It's a PRODUCT you can sell to other gold traders.",
+                                "Competitive advantage: Most gold traders don't have AI dashboards yet (first mover)",
+                            ],
+                            for_executing: [
+                                "Build web dashboard (React/Flutter) that connects to OpenClaw API",
+                                "Features: Live PAXG price, DXY, VIX, automated chart analysis, AI trade suggestions",
+                                "Add 'AI Analyst' chatbot: Users ask 'Why is gold up today?' → AI explains in real-time",
+                                "Integrate risk calculator from Week 1 (now AI-powered with optimal position sizing)",
+                                "Beta test with 5 trader friends",
+                            ],
+                            real_examples: [
+                                "Comparable product: Myfxbook calculator gets 500K visits/month, earns 6-figures in affiliate revenue",
+                                "AI advantage: Traditional calculators are static. Yours adapts to volatility and gives probability scores.",
+                            ],
+                        },
+                    ]
+                }
+            ]
+        };
+
+        function App() {
+            const [expandedDay, setExpandedDay] = useState(null);
+
+            const toggleDay = useCallback((dayKey) => {
+                setExpandedDay(expandedDay === dayKey ? null : dayKey);
+            }, [expandedDay]);
+
+            return (
+                <div className="App">
+                    <div className="header">
+                        <h1>⚡ Gold Binance Trading Plan</h1>
+                        <p>AI-Powered 4-Week Automation Blueprint</p>
+                    </div>
+
+                    <div className="gold-price-display">
+                        <div>Current Gold (PAXG) Focus</div>
+                        <div className="price">$2,400 - $2,500</div>
+                        <div>Trading Plan via OpenClaw + Claude AI</div>
+                    </div>
+
+                    <div className="weeks-container">
+                        {data.phases.map((phase) => (
+                            <div key={phase.id} className={`week-card week-${phase.id}`}>
+                                <div className="week-header">
+                                    <span className="week-icon">{phase.icon}</span>
+                                    <div className="week-info">
+                                        <h2>{phase.week}</h2>
+                                        <p>{phase.title}</p>
+                                    </div>
+                                </div>
+
+                                <div className="days-grid">
+                                    {phase.days.map((dayData, idx) => {
+                                        const dayKey = `day-${phase.id}-${idx}`;
+                                        const isExpanded = expandedDay === dayKey;
+
+                                        return (
+                                            <div
+                                                key={dayKey}
+                                                className="day-card"
+                                                onClick={() => toggleDay(dayKey)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                <div className="day-number">Day {dayData.day}</div>
+                                                <h3>{dayData.title}</h3>
+
+                                                {isExpanded && (
+                                                    <>
+                                                        <div className="section">
+                                                            <div className="section-title">📚 For Learning</div>
+                                                            <ul className="section-list">
+                                                                {dayData.for_learning.map((item, i) => (
+                                                                    <li key={i}>{item}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+
+                                                        {dayData.for_executing && (
+                                                            <div className="section">
+                                                                <div className="section-title">⚙️ For Executing</div>
+                                                                <ul className="section-list">
+                                                                    {dayData.for_executing.map((item, i) => (
+                                                                        <li key={i}>{item}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
+
+                                                        {dayData.real_examples && (
+                                                            <div className="section">
+                                                                <div className="section-title">💡 Real Examples</div>
+                                                                <ul className="section-list">
+                                                                    {dayData.real_examples.map((item, i) => (
+                                                                        <li key={i}>{item}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                )}
+
+                                                {!isExpanded && (
+                                                    <div style={{ fontSize: '12px', opacity: 0.6, marginTop: '10px' }}>
+                                                        Click to expand →
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="chart-container">
+                        <h2>📊 4-Week Trading Plan Overview</h2>
+                        <p style={{ opacity: 0.8, marginBottom: '20px' }}>
+                            Click any day card above to expand and view detailed learning points, execution steps, and real-world examples.
+                        </p>
+                    </div>
+
+                    <div className="scroll-indicator">
+                        🔽 Scroll down to explore all weeks and days
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

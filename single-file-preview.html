@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI Gold Trading System — Single File Preview</title>
+    <style>
+      html,body,#root{height:100%;}
+      body{margin:0;background:#000;color:#E0E0E0;font-family: 'JetBrains Mono', 'Courier New', monospace;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    </style>
+    <!-- CDNs: React, ReactDOM, Recharts UMD, Babel (for in-browser JSX) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+      const {
+        LineChart,
+        Line,
+        XAxis,
+        YAxis,
+        CartesianGrid,
+        Tooltip,
+        ResponsiveContainer,
+      } = Recharts;
+
+      const data = 
